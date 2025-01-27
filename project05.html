@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Drawing Canvas</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #444;
+        }
+
+        /* Main Content */
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Controls */
+        #controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .control-group label {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:active {
+            background-color: #00408f;
+        }
+
+        /* Canvas Styling */
+        #drawing-canvas {
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background-color: white;
+            cursor: crosshair;
+            width: 100%;
+            height: 500px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎨 Customizable Drawing Canvas</h1>
+    </header>
+    <main>
+        <div id="controls">
+            <div class="control-group">
+                <label for="brush-color">Brush Color:</label>
+                <input type="color" id="brush-color" value="#000000">
+            </div>
+            <div class="control-group">
+                <label for="brush-size">Brush Size:</label>
+                <input type="range" id="brush-size" min="1" max="20" value="5">
+            </div>
+            <div class="control-group">
+                <label for="canvas-color">Canvas Background:</label>
+                <input type="color" id="canvas-color" value="#ffffff">
+            </div>
+            <div class="buttons">
+                <button id="undo-button">Undo</button>
+                <button id="clear-button">Clear</button>
+                <button id="save-button">Save</button>
+            </div>
+        </div>
+        <canvas id="drawing-canvas"></canvas>
+    </main>
+    <footer>
+        <p>Created with ❤️ using Vanilla JavaScript</p>
+    </footer>
+    <script src="js/drawingCanvas.js"></script>
+</body>
+</html>

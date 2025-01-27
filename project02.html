@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        #todo-app {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4caf50;
+        }
+        #task-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #task-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #task-input button {
+            padding: 10px 15px;
+            border: none;
+            background: #4caf50;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #task-input button:hover {
+            background: #45a049;
+        }
+        #filter-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        #filter-buttons button {
+            padding: 8px 12px;
+            border: none;
+            background: #ccc;
+            color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #filter-buttons button.active {
+            background: #4caf50;
+            color: #fff;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: grab;
+        }
+        li.completed {
+            text-decoration: line-through;
+            background: #e8f5e9;
+            color: #555;
+        }
+        li input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        li button {
+            padding: 5px 10px;
+            border: none;
+            background: #f44336;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        li button:hover {
+            background: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <div id="todo-app">
+        <h1>To-Do List</h1>
+        <div id="task-input">
+            <input type="text" id="new-task" placeholder="Add a new task...">
+            <button id="add-task">Add</button>
+        </div>
+        <div id="filter-buttons">
+            <button data-filter="all" class="active">All</button>
+            <button data-filter="completed">Completed</button>
+            <button data-filter="pending">Pending</button>
+        </div>
+        <ul id="task-list"></ul>
+    </div>
+    <script src="js/todo.js"></script>
+</body>
+</html>

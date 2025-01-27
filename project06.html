@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Periodic Table</title>
+    <style>
+        /* CSS for Interactive Periodic Table */
+        #periodic-table-app {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+
+        #search-bar {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #c8a0a0;
+            border-radius: 5px;
+        }
+
+        #periodic-table {
+            display: grid;
+            grid-template-columns: repeat(18, 1fr);
+            gap: 5px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .element {
+            background-color: #26702c;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .element:hover {
+            background-color: #79bdc3;
+        }
+    </style>
+</head>
+<body>
+    <div id="periodic-table-app">
+        <h1>Interactive Periodic Table</h1>
+        <input type="text" id="search-bar" placeholder="Search elements...">
+        <div id="periodic-table"></div>
+    </div>
+    <script src="js/periodicTable.js"></script>
+</body>
+</html>

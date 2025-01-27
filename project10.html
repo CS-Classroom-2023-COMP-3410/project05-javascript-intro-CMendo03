@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Keyboard Trainer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #textDisplay {
+            font-size: 24px;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        #inputField {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+        #results {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        select {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .highlight-error {
+            color: red;
+        }
+
+        .highlight-correct {
+            color: green;
+        }
+
+        #difficulty {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Customizable Keyboard Trainer</h1>
+
+    <div id="textDisplay">Press "Start" to begin.</div>
+
+    <input type="text" id="inputField" placeholder="Start typing..." disabled />
+
+    <div id="results">
+        <span id="wpm">WPM: 0</span> | 
+        <span id="accuracy">Accuracy: 100%</span>
+    </div>
+
+    <div>
+        <button onclick="startGame()">Start</button>
+        <button onclick="restartGame()">Restart</button>
+    </div>
+
+    <div id="difficulty">
+        <label for="difficultySelect">Select Difficulty: </label>
+        <select id="difficultySelect">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+    </div>
+
+    <script>
+        let currentText = "";
+        let userInput = "";
+        let startTime = 0;
+        let interval;
+        let totalErrors = 0;
+        let totalWords = 0;
+        let typingStarted = false;
+
+        const textDisplay = document.getElementById("textDisplay");
+        const inputField = document.getElementById("inputField");
+        const wpmDisplay = document.getElementById("wpm");
+        const accuracyDisplay = document.getElementById("accuracy");
+        const difficultySelect = document.getElementById("difficultySelect");
+
+        const easyText = "The quick brown fox jumps over the lazy dog.";
+        const mediumText = "JavaScript is a versatile language used for both front-end and back-end development.";
+        const hardText = "In a world of constant change, it is essential to embrace innovation and adaptability.";
+
+        // Generate a random string based on the difficulty
+        function generateText() {
+            const difficulty = difficultySelect.value;
+            switch(difficulty) {
+                case "easy":
+                    currentText = easyText;
+                    break;
+                case "medium":
+                    currentText = mediumText;
+                    break;
+                case "hard":
+                    currentText = hardText;
+                    break;
+            }
+            textDisplay.textContent = currentText;
+            inputField.value = "";
+            inputField.disabled = false;
+            totalErrors = 0;
+            totalWords = 0;
+        }
+
+        // Start the game
+        function startGame() {
+            if (typingStarted) return; // Prevent starting a new game if it's already started
+
+            typingStarted = true;
+            generateText();
+            startTime = Date.now();
+            interval = setInterval(updateResults, 100);
+            inputField.addEventListener("input", onInput);
+        }
+
+        // Update results like WPM and accuracy
+        function updateResults() {
+            const elapsedTime = (Date.now() - startTime) / 1000 / 60; // time in minutes
+            const wordsTyped = inputField.value.trim().split(/\s+/).length;
+            const correctChars = inputField.value.split('').filter((char, index) => char === currentText[index]).length;
+
+            const accuracy = (correctChars / inputField.value.length) * 100;
+            const wpm = Math.floor(wordsTyped / elapsedTime);
+
+            wpmDisplay.textContent = `WPM: ${wpm}`;
+            accuracyDisplay.textContent = `Accuracy: ${accuracy.toFixed(2)}%`;
+
+            if (inputField.value === currentText) {
+                clearInterval(interval);
+                typingStarted = false;
+                inputField.disabled = true;
+                alert(`Game over! Your WPM: ${wpm} and Accuracy: ${accuracy.toFixed(2)}%`);
+            }
+        }
+
+        // Handle user input and highlight errors in real-time
+        function onInput() {
+            let userText = inputField.value;
+            let highlightedText = "";
+            let correctChars = 0;
+
+            for (let i = 0; i < userText.length; i++) {
+                if (userText[i] === currentText[i]) {
+                    highlightedText += `<span class="highlight-correct">${userText[i]}</span>`;
+                    correctChars++;
+                } else {
+                    highlightedText += `<span class="highlight-error">${userText[i]}</span>`;
+                }
+            }
+
+            textDisplay.innerHTML = highlightedText + currentText.slice(userText.length);
+        }
+
+        // Restart the game
+        function restartGame() {
+            typingStarted = false;
+            inputField.value = "";
+            textDisplay.textContent = "Press 'Start' to begin.";
+            inputField.disabled = true;
+            clearInterval(interval);
+            totalErrors = 0;
+            totalWords = 0;
+            wpmDisplay.textContent = "WPM: 0";
+            accuracyDisplay.textContent = "Accuracy: 100%";
+        }
+    </script>
+
+</body>
+</html>

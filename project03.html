@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Matching Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #game-container {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .card {
+            width: 100px;
+            height: 100px;
+            background: #ffffff;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 2rem;
+            font-weight: bold;
+            color: transparent;
+            border: 2px solid #ddd;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card.flipped {
+            color: #333;
+            background: #f0f0f0;
+        }
+        #controls {
+            display: flex;
+            justify-content: space-between;
+            width: 400px;
+            margin-bottom: 10px;
+        }
+        #restart-button {
+            padding: 8px 16px;
+            border: none;
+            background: #4caf50;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        #restart-button:hover {
+            background: #45a049;
+        }
+        #stats {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <div id="stats">Moves: 0 | Time: 0s</div>
+        <button id="restart-button">Restart</button>
+    </div>
+    <div id="game-container"></div>
+    <script src="js/memory.js"></script>
+</body>
+</html>

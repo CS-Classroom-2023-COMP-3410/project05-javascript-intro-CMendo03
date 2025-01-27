@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customizable Digital Clock</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            color: #fff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        #clock-container {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 20px 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+        #clock {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .controls input, .controls button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        #toggleFormat {
+            background: #4caf50;
+            color: #fff;
+        }
+        #toggleFormat:hover {
+            background: #45a049;
+        }
+        input[type="color"] {
+            padding: 0;
+            border: none;
+            cursor: pointer;
+            height: 40px;
+            width: 40px;
+        }
+        .alarm-controls {
+            margin-top: 15px;
+        }
+        .alarm-controls label {
+            font-size: 1.1rem;
+        }
+        #alarmMessage {
+            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #ff5252;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock-container">
+        <div id="clock">--:--:--</div>
+        <div class="controls">
+            <button id="toggleFormat">Switch to 24-Hour</button>
+            <label for="colorPicker">Font Color:</label>
+            <input type="color" id="colorPicker" value="#ffffff">
+            <label for="fontSize">Font Size:</label>
+            <input type="number" id="fontSize" min="10" max="100" value="48"> px
+        </div>
+        <div class="alarm-controls">
+            <label for="alarmTime">Set Alarm:</label>
+            <input type="time" id="alarmTime">
+            <button id="setAlarm">Set Alarm</button>
+        </div>
+        <div id="alarmMessage"></div>
+    </div>
+    <script src="js/clock.js"></script>
+</body>
+</html>

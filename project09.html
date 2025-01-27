@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualization Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #arrayContainer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 300px;
+            margin: 20px;
+            border: 2px solid #333;
+            width: 60%;
+            margin: 20px auto;
+        }
+
+        .bar {
+            width: 30px;
+            margin: 0 3px;
+            background-color: #4CAF50;
+            position: relative;
+        }
+
+        .sorted {
+            background-color: #FF6347;
+        }
+
+        .bar-number {
+            position: absolute;
+            bottom: -25px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            color: black;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        select {
+            margin: 10px;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        #commentary {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #speedControl {
+            margin-top: 20px;
+        }
+
+        #speedLabel {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sorting Visualization Tool</h1>
+
+    <div>
+        <button onclick="generateArray()">Generate Random Array</button>
+        <select id="algorithm">
+            <option value="bubble">Bubble Sort</option>
+            <option value="insertion">Insertion Sort</option>
+        </select>
+        <button onclick="startSorting()">Start Sorting</button>
+        <button onclick="stopSorting()">Stop Sorting</button>
+        <button onclick="restartSorting()">Restart Sorting</button>
+    </div>
+
+    <div id="arrayContainer"></div>
+
+    <div id="speedControl">
+        <label id="speedLabel" for="speed">Animation Speed (ms): </label>
+        <input type="range" id="speed" min="50" max="1000" value="200">
+        <span id="speedValue">200 ms</span>
+    </div>
+
+    <div id="commentary"></div>
+
+    <script>
+        let array = [];
+        let bars = [];
+        let interval;
+        let speed = 200;
+        let isSorting = false;
+
+        // Set up event listener for the speed control slider
+        document.getElementById("speed").addEventListener("input", (e) => {
+            speed = e.target.value;
+            document.getElementById("speedValue").textContent = `${speed} ms`;
+        });
+
+        function generateArray() {
+            array = [];
+            for (let i = 0; i < 30; i++) {
+                array.push(Math.floor(Math.random() * 100) + 1);
+            }
+            renderArray();
+            document.getElementById("commentary").textContent = "Array generated! Choose a sorting algorithm and start sorting.";
+        }
+
+        function renderArray() {
+            const container = document.getElementById("arrayContainer");
+            container.innerHTML = "";
+            bars = [];
+            array.forEach((value, index) => {
+                const bar = document.createElement("div");
+                bar.classList.add("bar");
+                bar.style.height = `${value * 3}px`;
+                const numberLabel = document.createElement("div");
+                numberLabel.classList.add("bar-number");
+                numberLabel.textContent = value;
+                bar.appendChild(numberLabel);
+                container.appendChild(bar);
+                bars.push(bar);
+            });
+        }
+
+        function startSorting() {
+            if (isSorting) return; // Prevent starting a new sort if already sorting
+
+            const algorithm = document.getElementById("algorithm").value;
+            document.getElementById("commentary").textContent = `Sorting with ${algorithm}...`;
+            isSorting = true;
+
+            if (algorithm === "bubble") {
+                bubbleSort();
+            } else {
+                insertionSort();
+            }
+        }
+
+        function stopSorting() {
+            if (interval) {
+                clearInterval(interval);
+                document.getElementById("commentary").textContent = "Sorting stopped.";
+            }
+            isSorting = false;
+        }
+
+        function restartSorting() {
+            if (interval) {
+                clearInterval(interval);
+            }
+            generateArray();  // Regenerate the array and start a new sorting process
+            isSorting = false;
+        }
+
+        function bubbleSort() {
+            let i = 0;
+            let j = 0;
+            const n = array.length;
+
+            interval = setInterval(() => {
+                if (i < n) {
+                    if (j < n - i - 1) {
+                        if (array[j] > array[j + 1]) {
+                            swap(j, j + 1);
+                            document.getElementById("commentary").textContent = `Step ${i + 1}: Swapping ${array[j]} and ${array[j + 1]}.`;
+                        }
+                        j++;
+                    } else {
+                        i++;
+                        j = 0;
+                        document.getElementById("commentary").textContent = `Step ${i + 1}: Repeating the comparison pass.`;
+                    }
+                } else {
+                    clearInterval(interval);
+                    markSorted();
+                    document.getElementById("commentary").textContent = "Sorting complete! The array is now sorted.";
+                    isSorting = false;
+                }
+            }, speed);
+        }
+
+        function insertionSort() {
+            let i = 1;
+            const n = array.length;
+
+            interval = setInterval(() => {
+                if (i < n) {
+                    let j = i;
+                    while (j > 0 && array[j] < array[j - 1]) {
+                        swap(j, j - 1);
+                        document.getElementById("commentary").textContent = `Step ${i}: Inserting ${array[j]} into its correct position.`;
+                        j--;
+                    }
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    markSorted();
+                    document.getElementById("commentary").textContent = "Sorting complete! The array is now sorted.";
+                    isSorting = false;
+                }
+            }, speed);
+        }
+
+        function swap(i, j) {
+            const temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+            renderArray();
+        }
+
+        function markSorted() {
+            bars.forEach(bar => {
+                bar.classList.add("sorted");
+            });
+        }
+
+        // Initialize the array with random values
+        generateArray();
+    </script>
+</body>
+</html>
