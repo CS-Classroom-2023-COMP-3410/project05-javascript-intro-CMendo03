@@ -195,3 +195,54 @@ submitButton.addEventListener("click", handleSubmit);
 
 // Initialize the quiz
 displayQuestion();
+
+
+function editAnswer(questionIndex) {
+    // Show quiz container and hide results and buttons
+    quizContainer.style.display = "block";
+    resultsContainer.style.display = "none";
+    submitButton.style.display = "none";
+    nextButton.style.display = "none";
+
+    const question = questions[questionIndex];
+    const userAnswer = userAnswers[questionIndex];
+    const correctAnswerIndex = question.answers.findIndex(
+        (answer) => answer.correct
+    );
+
+    quizContainer.innerHTML = `
+        <div class="question">${question.question}</div>
+        <ul class="answers">
+            ${question.answers
+                .map(
+                    (answer, index) =>
+                        `<li><label><input type="radio" name="answer" value="${index}" ${
+                            userAnswer.selected === answer.text ? "checked" : ""
+                        }> ${answer.text}</label></li>`
+                )
+                .join("")}
+        </ul>
+        <button id="saveBtn">Save</button>
+    `;
+
+    document.getElementById("saveBtn").addEventListener("click", function () {
+        const selectedAnswer = getSelectedAnswer();
+        if (selectedAnswer === null) {
+            alert("Please select an answer.");
+            return;
+        }
+
+        const updatedAnswer = question.answers[selectedAnswer].text;
+        const isCorrect = question.answers[selectedAnswer].correct;
+
+        userAnswers[questionIndex] = {
+            question: question.question,
+            selected: updatedAnswer,
+            correct: question.answers[correctAnswerIndex].text,
+            isCorrect: isCorrect,
+        };
+
+        score = userAnswers.reduce((total, answer) => total + (answer.isCorrect ? 1 : 0), 0);
+        handleSubmit(); // Re-render results
+    });
+}
